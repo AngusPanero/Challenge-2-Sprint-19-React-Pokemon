@@ -7,6 +7,7 @@ const PokemonComponente = () => {
     const [ dataDuplicada, setDataDuplicada ] = useState(null)
     const [ loading, setLoading ] = useState(true)
     const [ error, setError ] = useState(null)
+    const [ errorBusqueda, setErrorBusqueda ] = useState(null)
 
     const [ offset, setOffset] = useState(0);
     const [ limit, setLimit ] = useState(10);
@@ -86,10 +87,21 @@ const PokemonComponente = () => {
         console.log("Data", data);
         console.log("Buscador", buscador);
         
-        const resultado = data.filter((pokemon) => pokemon.name.toLowerCase().includes(filtro))
+        const resultado = data.filter((pokemon) => pokemon.name.toLowerCase().includes(buscador))
         setFiltro(resultado)
+
+        if(resultado.length === 0){
+            setErrorBusqueda("404 - Pokemon no Encontrado")
+        }
+
         console.log("Resultado Guardado", resultado);
         
+    }
+
+    if(errorBusqueda === "404 - Pokemon no Encontrado"){
+        return(
+            <h1>404 - Pokemon no Encontrado</h1>
+        )
     }
 
     return(
