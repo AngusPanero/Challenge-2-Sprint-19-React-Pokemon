@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react"
+import "../src/Fetch.css"
 
 const PokemonComponente = () => {
     const [ data, setData ] = useState(null)
@@ -8,6 +9,9 @@ const PokemonComponente = () => {
 
     const [ offset, setOffset] = useState(0);
     const [ limit, setLimit ] = useState(10);
+
+    const [ filtro, setFiltro ] = useState([])
+    const [ buscador, setBuscador ] = useState("")
     
     useEffect(() => {
         const pokemonFetch = async () => {
@@ -31,6 +35,8 @@ const PokemonComponente = () => {
                 );
     
                 setData(detallesPokemon);
+                setFiltro(detallesPokemon);
+
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -59,13 +65,43 @@ const PokemonComponente = () => {
         setOffset(offset + limit)
     }
 
+    const handleBuscador = (event) => {
+        setBuscador(event.target.value)
+    }
+
+    const handleFilter = (e) => {
+        e.preventDefault()
+        console.log("Buscador", buscador);
+        
+        
+        const resultado = data.filter((pokemon) => pokemon.name.toLowerCase().includes(buscador.toLowerCase()))
+        setFiltro(resultado)
+        console.log(resultado);
+        
+    }
+
     return(
-        <div>
+        <>
+            <form onSubmit={handleFilter}>
+                <input value={buscador} onChange={handleBuscador} placeholder="Buscador Pokemon" type="text"></input>
+                <button type="submit">Buscar</button>
+            </form>
+
             <h1>Pokedex</h1>
-            <button onClick={prev}>Anterior</button>
-            <button onClick={next}>Siguiente</button>
-            {data.map((pokemon) => <p>{pokemon.name.toUpperCase()}</p>)}
-        </div>  
+            <div className="botones">
+                <button onClick={prev}>Anterior</button>
+                <button onClick={next}>Siguiente</button>
+            </div>    
+            
+            <div className="pokemonContenedor">
+                {data.map((pokemon) => (
+                    <div>
+                        <p>{pokemon.name.toUpperCase()}</p>
+                        <img className="pokemonImg" src={pokemon.sprites.front_default} alt={pokemon.name}></img>
+                    </div>
+                    ))}
+            </div>
+        </>
     )
 }
 

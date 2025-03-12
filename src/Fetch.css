@@ -1,0 +1,16 @@
+.pokemonContenedor{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.pokemonImg{
+    width:  8rem;
+    height: auto;
+}
+
+.botones{
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
