@@ -71,15 +71,6 @@ const PokemonComponente = () => {
     const handleBuscador = (event) => {
         const valor = event.target.value.toLowerCase();
         setBuscador(valor);
-    
-        if (valor === "") {
-            setFiltro(data);
-        } else {
-            const resultado = data.filter((pokemon) =>
-                pokemon.name.toLowerCase().includes(valor)
-            );
-            setFiltro(resultado);
-        }
     };
 
     const handleFilter = (e) => {
