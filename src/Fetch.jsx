@@ -4,6 +4,7 @@ import "../src/Fetch.css"
 
 const PokemonComponente = () => {
     const [ data, setData ] = useState(null)
+    const [ dataDuplicada, setDataDuplicada ] = useState(null)
     const [ loading, setLoading ] = useState(true)
     const [ error, setError ] = useState(null)
 
@@ -34,6 +35,7 @@ const PokemonComponente = () => {
                     data.results.map((pokemon) => detallesFetch(pokemon.url))
                 );
     
+                setDataDuplicada(detallesPokemon);
                 setData(detallesPokemon);
                 setFiltro(detallesPokemon);
 
@@ -66,38 +68,51 @@ const PokemonComponente = () => {
     }
 
     const handleBuscador = (event) => {
-        setBuscador(event.target.value)
-    }
+        const valor = event.target.value.toLowerCase();
+        setBuscador(valor);
+    
+        if (valor === "") {
+            setFiltro(data);
+        } else {
+            const resultado = data.filter((pokemon) =>
+                pokemon.name.toLowerCase().includes(valor)
+            );
+            setFiltro(resultado);
+        }
+    };
 
     const handleFilter = (e) => {
         e.preventDefault()
+        console.log("Data", data);
         console.log("Buscador", buscador);
         
-        
-        const resultado = data.filter((pokemon) => pokemon.name.toLowerCase().includes(buscador.toLowerCase()))
+        const resultado = data.filter((pokemon) => pokemon.name.toLowerCase().includes(filtro))
         setFiltro(resultado)
-        console.log(resultado);
+        console.log("Resultado Guardado", resultado);
         
     }
 
     return(
         <>
-            <form onSubmit={handleFilter}>
+            <form className="form" onSubmit={handleFilter}>
                 <input value={buscador} onChange={handleBuscador} placeholder="Buscador Pokemon" type="text"></input>
                 <button type="submit">Buscar</button>
             </form>
 
-            <h1>Pokedex</h1>
+            <h2>Buscá Tu Pokemon Favorito</h2>
             <div className="botones">
                 <button onClick={prev}>Anterior</button>
                 <button onClick={next}>Siguiente</button>
             </div>    
             
             <div className="pokemonContenedor">
-                {data.map((pokemon) => (
+                {filtro.map((pokemon) => (
                     <div>
                         <p>{pokemon.name.toUpperCase()}</p>
                         <img className="pokemonImg" src={pokemon.sprites.front_default} alt={pokemon.name}></img>
+                        <p>{pokemon.types.map(type => type.type.name).join(", ").toUpperCase()}</p>
+                        <p>Altura: {pokemon.height} Dm</p>
+                        <p>Peso: {pokemon.weight} Hg</p>
                     </div>
                     ))}
             </div>

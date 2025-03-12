@@ -23,12 +23,32 @@ a:hover {
   color: #535bf2;
 }
 
+header{
+  display: flex;
+  justify-content: center;
+  padding-top: 6rem;
+}
+
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  color: white;
+  background: linear-gradient(45deg, 
+        #FFCB05, 
+        #FF0000, 
+        #3B4CCA, 
+        #48D1B5, 
+        #6F35FC  
+    );
+    background-size: 300% 300%;
+    animation: animColorPokemon 8s ease infinite;
+}
+
+@keyframes animColorPokemon {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 h1 {
@@ -43,13 +63,15 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #1a1a1a3b;
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -66,4 +88,20 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.poke-logo{
+  width: 20rem;
+  height: auto;
+}
+
+.form{
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+input{
+  border-radius: 10px;
+  background-color: #1a1a1a3b;
 }
